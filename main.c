@@ -57,47 +57,44 @@ void quicksortHoare(int vetor[], int esq, int dir) {
     }
 }
 
-void merge(int vetor[], int esq, int meio, int dir) {
-    int vetor2Size = dir - esq + 1;
-    int vetor2[vetor2Size];
-
-    for (int i = esq; i <= dir; i++)
-        vetor2[i-esq] = vetor[i];
-
+void merge(int a[], int esq, int meio, int dir) {
+    int auxSize = dir - esq + 1;
+    int aux[auxSize];
+    for (int i = esq; i <= dir; i++) {
+        aux[i - esq] = a[i];
+    }
     int i = esq;
     int j = meio + 1;
     int k = esq;
-
-
     while (i <= meio && j <= dir) {
-        if (vetor2[i - esq] <= vetor2[j - esq]) {
-            vetor[k] = vetor2[i - esq];
+        if (aux[i - esq] <= aux[j - esq]) {
+            a[k] = aux[i - esq];
             i++;
         } else {
-            vetor[k] = vetor2[j - esq];
+            a[k] = aux[j - esq];
             j++;
         }
         k++;
     }
-
     while (i <= meio) {
-        vetor[k] = vetor2[i - esq];
+        a[k] = aux[i - esq];
         i++;
         k++;
     }
-
     while (j <= dir) {
-        vetor[k] = vetor2[j - esq];
+        a[k] = aux[j - esq];
         j++;
         k++;
     }
 }
-void mergeSort(int vetor[], int esq, int dir) {
+void mergeSort(int a[], int esq, int dir) {
+
     if (esq < dir) {
-        int meio = (esq - dir) / 2;
-        mergeSort(vetor, esq, meio);
-        mergeSort(vetor, meio + 1, dir);
-        merge(vetor, esq, meio, dir);
+        int meio = (esq + dir) / 2;
+        mergeSort(a, esq, meio);
+        mergeSort(a, meio + 1, dir);
+        merge(a, esq, meio, dir);
+        return;
     }
 }
 
@@ -163,12 +160,12 @@ int main(void) {
            "4 - Select\n"
            "5 - Quick [LOMUTO]\n"
            "6 - Quick [HOARE]\n"
-           "7 - Merge [ARRUMAR]\n");
+           "7 - Merge\n");
     scanf("%d", &op);
     inicio = clock();
 
     switch (op) {
-        case 1: //bubble
+        case 1: //bubble -----------------------------------------
             for (int x = tam; x > 1; x--) {
                 for (int y = 0; y < x - 1; y++) {
                     if (vetor[y] > vetor[y + 1]) {
@@ -181,7 +178,7 @@ int main(void) {
             fim = clock();
 
             break;
-        case 2: //insert
+        case 2: //insert -----------------------------------------
             for (int i = 0; i < tam; i++) {
                 int aux = vetor[i];
                 int j = i - 1;
@@ -194,7 +191,7 @@ int main(void) {
             fim = clock();
 
             break;
-        case 3: { //shell
+        case 3: { //shell -----------------------------------------
             int aux, i, j, h;
             for (h = 1; h < tam; h = 3 * h + 1);
             while (h > 0) {
@@ -216,7 +213,7 @@ int main(void) {
         }
 
 
-        case 4: //select
+        case 4: //select -----------------------------------------
             for (int i = 0; i < tam-1; i++) {
                 int indiceMenor = i;
                 for (int j = i+1; j < tam; j++) {
@@ -230,15 +227,15 @@ int main(void) {
             }
             break;
             fim = clock();
-        case 5: //quick lomuto
+        case 5: //quick lomuto -----------------------------------------
             quicksortLomuto(vetor, 0, tam - 1);
             fim = clock();
             break;
-        case 6: //quick hoare
+        case 6: //quick hoare -----------------------------------------
             quicksortHoare(vetor, 0, tam - 1);
             fim = clock();
             break;
-        case 7: //merge]
+        case 7: //merge -----------------------------------------
             mergeSort(vetor, 0, tam - 1);
             fim = clock();
             break;
